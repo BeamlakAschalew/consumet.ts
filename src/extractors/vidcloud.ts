@@ -36,10 +36,11 @@ class VidCloud extends VideoExtractor {
       );
 
       if (!isJson(res.data.sources)) {
-        let keys = await (await this.client.get('https://raw.githubusercontent.com/onV10/deez/main/keys.json')).data["rabbitstream"]["keys"];
+        const keys = await (await this.client.get('https://raw.githubusercontent.com/onV10/deez/main/keys.json')).data["rabbitstream"]["keys"];
                     let keyString = btoa(String.fromCharCode.apply(null, Array.from(new Uint8Array(keys))));
                     const decryptedVal = CryptoJS.AES.decrypt(res.data.sources, keyString).toString(CryptoJS.enc.Utf8);
                     sources = JSON.parse(CryptoJS.AES.decrypt(res.data.sources, keyString).toString(CryptoJS.enc.Utf8));        
+
 
         sources = isJson(decryptedVal) ? JSON.parse(decryptedVal) : res.data.sources;
         
